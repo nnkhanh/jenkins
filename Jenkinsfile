@@ -1,20 +1,8 @@
-pipeline {
-    agent any
-    options {
-        skipDefaultCheckout true
-    }
+node {
+	stage 'Checkout'
+		checkout scm
 
-    stages {
-        stage('Clone Repository') {
-            steps {
-                git branch: 'main', url: 'https://github.com/nnkhanh/publishRepo'
-            }
-        }
-
-        stage('Build') {
-            steps {
-                sh 'terraform validate'
-            }
-        }
-    }
+	stage 'Build'
+		bat 'terraform validate'
+		bat 'terraform fmt'
 }
