@@ -1,9 +1,6 @@
 node {
 	stage ('Checkout') {
-		checkout scmGit(branches: [[name: 'main']],
-                userRemoteConfigs: [
-                    [ url: 'https://github.com/nnkhanh/publishRepo.git' ]
-                ])
+		checkout scm
 	}
 	
 	/* .. snip ..2 */
