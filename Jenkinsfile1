@@ -1,4 +1,5 @@
 node {
+
 	stage ('Checkout') {
 		checkout scmGit(branches: [[name: 'main']],
                 userRemoteConfigs: [
@@ -16,15 +17,4 @@ node {
 		}		
 	}
 
-	stage ('Apply') {
-		dir('linux-basic-ssh') {
-			sh 'terraform apply -auto-approve'
-		}		
-	}
-
-	stage ('Destroy') {
-		dir('linux-basic-ssh') {
-			sh 'terraform destroy -auto-approve'
-		}		
-	}
 }
