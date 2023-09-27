@@ -2,6 +2,7 @@ node {
 
 	stage ('Apply') {
 		dir('dc11-dot-khanh-networking') {
+			sh 'terraform plan'
 			sh 'terraform apply -auto-approve'
 		}		
 	}
