@@ -1,7 +1,7 @@
 node {
 
 	stage ('Apply') {
-		echo '$projectdir'
+		echo projectdir
 		dir('dc11-dot-khanh-networking') {
 			sh 'terraform init'
 			sh 'terraform apply -auto-approve'
