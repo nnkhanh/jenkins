@@ -2,13 +2,13 @@ node {
 
 	stage ('Apply') {
 		dir('dc11-dot-khanh-networking') {
-			echo 'apply'
+			sh 'terraform apply -auto-approve'
 		}		
 	}
 
 	stage ('Destroy') {
 		dir('dc11-dot-khanh-networking') {
-			echo 'destroy'
+			sh 'terraform destroy -auto-approve'
 		}		
 	}
 }
