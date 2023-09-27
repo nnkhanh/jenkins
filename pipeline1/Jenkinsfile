@@ -14,11 +14,12 @@ node {
 				 , string(credentialsId: '952dfff4-2263-49d7-8bcb-7a02165c4294', variable: 'ARM_TENANT_ID')
 				 , string(credentialsId: '952dfff4-2263-49d7-8bcb-7a02165c4294', variable: 'ARM_ACCESS_KEY')
 				 , string(credentialsId: '952dfff4-2263-49d7-8bcb-7a02165c4294', variable: 'ARM_CLIENT_SECRET')]) {
-  					sh 'export ARM_CLIENT_ID=ARM_CLIENT_ID'
-					sh 'export ARM_SUBSCRIPTION_ID=ARM_SUBSCRIPTION_ID'
-					sh 'export ARM_TENANT_ID=ARM_TENANT_ID'
-					sh 'export ARM_ACCESS_KEY=ARM_ACCESS_KEY'
-					sh 'export ARM_CLIENT_SECRET=ARM_CLIENT_SECRET'
+					echo '${ARM_CLIENT_ID}'
+  					sh 'export ARM_CLIENT_ID=${ARM_CLIENT_ID}'
+					sh 'export ARM_SUBSCRIPTION_ID=${ARM_SUBSCRIPTION_ID}'
+					sh 'export ARM_TENANT_ID=${ARM_TENANT_ID}'
+					sh 'export ARM_ACCESS_KEY=${ARM_ACCESS_KEY}'
+					sh 'export ARM_CLIENT_SECRET=${ARM_CLIENT_SECRET}'
 		}
 	}
 	stage ('Build') {
