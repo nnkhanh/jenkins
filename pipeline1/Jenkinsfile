@@ -1,4 +1,4 @@
-def projectdir = env.WORKSPACE
+def projectdir = pwd()
 node {
 
 	stage ('Checkout') {
