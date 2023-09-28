@@ -2,14 +2,14 @@ node {
 
 	stage ('Apply') {
 		echo projectdir
-		dir(projectdir + '/dc11-dot-khanh-networking') {
+		dir('/var/lib/jenkins/workspace/TerraformValidate/dc11-dot-khanh-networking') {
 			sh 'terraform init'
 			sh 'terraform apply -auto-approve'
 		}		
 	}
 
 	stage ('Destroy') {
-		dir(projectdir + '/dc11-dot-khanh-networking') {
+		dir('/var/lib/jenkins/workspace/TerraformValidate/dc11-dot-khanh-networking') {
 			sh 'terraform destroy -auto-approve'
 		}		
 	}
