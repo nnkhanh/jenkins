@@ -14,6 +14,7 @@ node {
 		    sh 'az login -u $azusername -p $azpassword'
 		}
 	}
+	
 	stage ('ExportTerraform') {
 		withCredentials([string(credentialsId: 'ARM_CLIENT_ID', variable: 'ARM_CLIENT_ID')
 				 , string(credentialsId: 'ARM_SUBSCRIPTION_ID', variable: 'ARM_SUBSCRIPTION_ID')
