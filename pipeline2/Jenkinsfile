@@ -8,7 +8,6 @@ node {
 	}
 	
 	stage ('Apply') {
-		echo projectdir
 		dir('dc11-dot-khanh-networking') {
 			sh 'terraform apply -auto-approve'
 		}		
@@ -18,5 +17,9 @@ node {
 		dir('dc11-dot-khanh-networking') {
 			sh 'terraform destroy -auto-approve'
 		}		
+	}
+
+	stage ('cleanup') {
+		cleanWs()
 	}
 }
