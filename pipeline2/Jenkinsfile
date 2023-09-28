@@ -1,15 +1,21 @@
 node {
-
+	
+	stage ('Checkout') {
+		checkout scmGit(branches: [[name: 'main']],
+                userRemoteConfigs: [
+                    [ url: 'https://github.com/nnkhanh/publishRepo.git' ]
+                ])
+	}
+	
 	stage ('Apply') {
 		echo projectdir
-		dir('/var/lib/jenkins/workspace/TerraformValidate/dc11-dot-khanh-networking') {
-			sh 'terraform init'
+		dir('dc11-dot-khanh-networking') {
 			sh 'terraform apply -auto-approve'
 		}		
 	}
 
 	stage ('Destroy') {
-		dir('/var/lib/jenkins/workspace/TerraformValidate/dc11-dot-khanh-networking') {
+		dir('dc11-dot-khanh-networking') {
 			sh 'terraform destroy -auto-approve'
 		}		
 	}
