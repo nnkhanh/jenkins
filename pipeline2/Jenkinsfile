@@ -9,7 +9,7 @@ node {
 	}
 
 	stage ('Destroy') {
-		dir(projectdir + 'dc11-dot-khanh-networking') {
+		dir(projectdir + '/dc11-dot-khanh-networking') {
 			sh 'terraform destroy -auto-approve'
 		}		
 	}
