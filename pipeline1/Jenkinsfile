@@ -5,8 +5,16 @@ node {
                 userRemoteConfigs: [
                     [ url: 'https://github.com/nnkhanh/publishRepo.git' ]
                 ])
-		def projectdir = pwd()
 	}
+
+	stage('Getprojectdir') {
+            steps {
+                script {
+                  def projectdir = sh(returnStdout: true, script: 'pwd').trim()
+                  echo "projectdir: '${projectdir}'"
+                }
+            }
+        }
 	
 	/* .. snip ..2 */
 	stage ('azlogin'){
