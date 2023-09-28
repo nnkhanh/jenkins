@@ -1,4 +1,3 @@
-def projectdir = pwd()
 node {
 
 	stage ('Checkout') {
@@ -6,6 +5,7 @@ node {
                 userRemoteConfigs: [
                     [ url: 'https://github.com/nnkhanh/publishRepo.git' ]
                 ])
+		def projectdir = pwd()
 	}
 	
 	/* .. snip ..2 */
