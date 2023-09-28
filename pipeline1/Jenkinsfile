@@ -8,12 +8,10 @@ node {
 	}
 
 	stage('Getprojectdir') {
-            steps {
-                script {
+            script {
                   def projectdir = sh(returnStdout: true, script: 'pwd').trim()
                   echo "projectdir: '${projectdir}'"
                 }
-            }
         }
 	
 	/* .. snip ..2 */
