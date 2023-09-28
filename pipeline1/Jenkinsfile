@@ -7,14 +7,6 @@ node {
                 ])
 	}
 	
-	/*
-	stage ('azlogin'){
-		withCredentials([usernamePassword(credentialsId: '631f5a3a-2dfd-4f5b-96e3-c776be58540a', passwordVariable: 'azpassword', usernameVariable: 'azusername')]) {
-		    sh 'az login -u $azusername -p $azpassword'
-		}
-	}
-	*/
-	
 	stage ('ExportTerraform') {
 		withCredentials([string(credentialsId: 'ARM_CLIENT_ID', variable: 'ARM_CLIENT_ID')
 				 , string(credentialsId: 'ARM_SUBSCRIPTION_ID', variable: 'ARM_SUBSCRIPTION_ID')
