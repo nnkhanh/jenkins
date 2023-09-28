@@ -6,6 +6,21 @@ node {
                     [ url: 'https://github.com/nnkhanh/publishRepo.git' ]
                 ])
 	}
+
+	stage ('ExportTerraform') {
+		withCredentials([string(credentialsId: 'ARM_CLIENT_ID', variable: 'ARM_CLIENT_ID')
+				 , string(credentialsId: 'ARM_SUBSCRIPTION_ID', variable: 'ARM_SUBSCRIPTION_ID')
+				 , string(credentialsId: 'ARM_TENANT_ID', variable: 'ARM_TENANT_ID')]) {
+					script {
+					    	// some block
+						sh 'export ARM_CLIENT_ID=$ARM_CLIENT_ID'
+						sh 'export ARM_SUBSCRIPTION_ID=$ARM_SUBSCRIPTION_ID'
+						sh 'export ARM_TENANT_ID=$ARM_TENANT_ID'
+						sh 'export ARM_ACCESS_KEY=$(az keyvault secret show --name terraform-backend-key --vault-name devopstraining --query value -o tsv)'
+						sh 'export ARM_CLIENT_SECRET=$(az keyvault secret show --name client-secret-sp1 --vault-name devopstraining --query value -o tsv)'
+					}
+		}
+	}
 	
 	stage ('Apply') {
 		dir('dc11-dot-khanh-networking') {
