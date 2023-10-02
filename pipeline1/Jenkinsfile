@@ -1,40 +1,65 @@
-node {
-	
-	stage ('Checkout') {
-		checkout scmGit(branches: [[name: 'main']],
-                userRemoteConfigs: [
-                    [ url: 'https://github.com/nnkhanh/publishRepo.git' ]
-                ])
-	}
-	
-	stage ('ExportTerraform') {
-		withCredentials([string(credentialsId: 'ARM_CLIENT_ID', variable: 'ARM_CLIENT_ID')
-				 , string(credentialsId: 'ARM_SUBSCRIPTION_ID', variable: 'ARM_SUBSCRIPTION_ID')
-				 , string(credentialsId: 'ARM_ACCESS_KEY', variable: 'ARM_ACCESS_KEY')
-				 , string(credentialsId: 'ARM_CLIENT_SECRET', variable: 'ARM_CLIENT_SECRET')
-				 , string(credentialsId: 'ARM_TENANT_ID', variable: 'ARM_TENANT_ID')]) {
-					script {
-					    	// some block
-						sh 'export ARM_CLIENT_ID=$ARM_CLIENT_ID'
-						sh 'export ARM_SUBSCRIPTION_ID=$ARM_SUBSCRIPTION_ID'
-						sh 'export ARM_TENANT_ID=$ARM_TENANT_ID'
-						sh 'export ARM_ACCESS_KEY=$ARM_ACCESS_KEY'
-						sh 'export ARM_CLIENT_SECRET=$ARM_CLIENT_SECRET'
-					}
-		}
-	}
-	
-	stage ('Validate') {
-		dir('dc11-dot-khanh-networking') {
-      			sh 'pwd && ls'
-			sh 'terraform init'
-			validateoutput = sh(returnStdout: true, script: 'terraform validate').trim()
-			emailext body: 'There is build output' + validateoutput, recipientProviders: [buildUser()], subject: 'Build output', to: 'khanhnguyennam@hotmail.com'
-		}		
-	}
+pipeline {
+    agent any
 
+    stages {
+        stage ('Checkout') {
+            steps {
+                checkout scmGit(branches: [[name: 'main']],
+                    userRemoteConfigs: [
+                        [ url: 'https://github.com/nnkhanh/publishRepo.git' ]
+                    ])
+            	}
+	    }
+	    
+	    stage ('ExportTerraform') {
+	        steps {
+        		withCredentials([string(credentialsId: 'ARM_CLIENT_ID', variable: 'ARM_CLIENT_ID')
+        				 , string(credentialsId: 'ARM_SUBSCRIPTION_ID', variable: 'ARM_SUBSCRIPTION_ID')
+        				 , string(credentialsId: 'ARM_ACCESS_KEY', variable: 'ARM_ACCESS_KEY')
+        				 , string(credentialsId: 'ARM_CLIENT_SECRET', variable: 'ARM_CLIENT_SECRET')
+        				 , string(credentialsId: 'ARM_TENANT_ID', variable: 'ARM_TENANT_ID')]) {
+        					script {
+        					    	// some block
+        						sh 'export ARM_CLIENT_ID=$ARM_CLIENT_ID'
+        						sh 'export ARM_SUBSCRIPTION_ID=$ARM_SUBSCRIPTION_ID'
+        						sh 'export ARM_TENANT_ID=$ARM_TENANT_ID'
+        						sh 'export ARM_ACCESS_KEY=$ARM_ACCESS_KEY'
+        						sh 'export ARM_CLIENT_SECRET=$ARM_CLIENT_SECRET'
+        					}
+        	    }
+	        }
+	    }
 	
-	stage ('cleanup') {
-		cleanWs()
-	}
+    	stage ('Validate') {
+    	     steps {
+    	         dir('dc11-dot-khanh-networking') {
+          			sh 'pwd && ls'
+    			    sh 'terraform init'
+    			    script {
+    			        validateoutput = sh(returnStdout: true, script: 'terraform validate').trim()
+                	}
+    	         }
+    	    }
+        }
+    	     
+	
+    	stage ('cleanup') {
+    	    steps {
+    	        cleanWs()
+    	    }
+    	}
+    }
+    
+    post {
+        success {
+            echo 'I succeeded!'
+        }
+        unstable {
+            echo 'I am unstable :/'
+        }
+        failure {
+            echo 'I failed :('
+	    emailext body: 'There is build output' + validateoutput, recipientProviders: [buildUser()], subject: 'Build output', to: 'khanhnguyennam@hotmail.com'
+        }
+    }
 }
