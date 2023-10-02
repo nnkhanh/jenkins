@@ -54,14 +54,14 @@ pipeline {
     post {
         success {
             echo 'I succeeded!'
-	    emailext body: 'buid result ' + validateoutput, recipientProviders: [buildUser()], subject: 'Build output', to: 'khanhnguyennam@hotmail.com'
+	    emailext body: 'Build success.' + validateoutput, recipientProviders: [buildUser()], subject: 'Build output', to: 'khanhnguyennam@hotmail.com'
         }
         unstable {
             echo 'I am unstable :/'
         }
         failure {
             echo 'I failed :('
-	    emailext body: 'buid result ' + validateoutput, recipientProviders: [buildUser()], subject: 'Build output', to: 'khanhnguyennam@hotmail.com'
+	    emailext attachLog: true, body: 'Build failed, see attached log.', recipientProviders: [buildUser()], subject: 'Build output', to: 'khanhnguyennam@hotmail.com'
         }
     }
 }
