@@ -37,8 +37,4 @@ node {
 	stage ('cleanup') {
 		cleanWs()
 	}
-
-	stage ('Sendemail') {
-		emailext body: 'There is build output' + validateoutput, recipientProviders: [buildUser()], subject: 'Build output', to: 'khanhnguyennam@hotmail.com'
-	}
 }
