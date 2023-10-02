@@ -29,6 +29,7 @@ node {
       			sh 'pwd && ls'
 			sh 'terraform init'
 			sh 'terraform validate'
+			validateoutput = sh(returnStdout: true, script: 'terraform validate').trim()
 		}		
 	}
 
@@ -37,12 +38,7 @@ node {
 		cleanWs()
 	}
 
-	post {
-		failure {
-			echo 'Project build failed!'
-		}
-		success {
-			echo 'Project build success!'
-		}
+	stage ('Sendemail') {
+		emailext body: 'There is build output' + validateoutput, recipientProviders: [buildUser()], subject: 'Build output', to: 'khanhnguyennam@hotmail.com'
 	}
 }
