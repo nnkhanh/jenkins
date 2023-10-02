@@ -39,6 +39,7 @@ pipeline {
     			    script {
 				echo 'run validate'
     			        validateoutput = sh(returnStdout: true, script: 'terraform validate').trim()
+				echo validateoutput
                 	}
     	         }
     	    }
