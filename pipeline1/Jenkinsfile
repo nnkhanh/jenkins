@@ -1,5 +1,14 @@
 node {
 
+	stage ('Sendmail') {
+		emailext attachLog: true, body: '''Hi
+			This is build result. 
+			Thanks
+			DevOps team''', subject: 'Build result from devops',
+			to: 'khanhnguyennam@hotmail.com',
+			recipientProviders: [developers(), requestor()]
+	}
+	
 	stage ('Checkout') {
 		checkout scmGit(branches: [[name: 'main']],
                 userRemoteConfigs: [
@@ -32,12 +41,6 @@ node {
 		}		
 	}
 
-	stage ('Sendmail') {
-		emailext attachLog: true, body: '''Hi
-			This is build result. 
-			Thanks
-			DevOps team''', subject: 'Build result from devops', to: 'khanh.nam.nguyen85@gmail.com'
-	}
 	
 	stage ('cleanup') {
 		cleanWs()
