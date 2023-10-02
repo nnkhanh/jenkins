@@ -34,12 +34,10 @@ pipeline {
     	stage ('Validate') {
     	     steps {
     	         dir('dc11-dot-khanh-networking') {
-          			sh 'pwd && ls'
-    			    sh 'terraform init'
+          		    sh 'pwd && ls'
     			    script {
 				sh 'pwd'
-    			        validateoutput = sh(returnStdout: true, script: 'terraform validate').trim()
-				echo validateoutput
+    			        validateoutput = sh(returnStdout: true, script: 'terraform init').trim()
                 	}
     	         }
     	    }
