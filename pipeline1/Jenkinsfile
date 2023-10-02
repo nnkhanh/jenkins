@@ -60,7 +60,7 @@ pipeline {
         }
         failure {
             echo 'I failed :('
-	    emailext body: "There is build output:\n + ${validateoutput}", recipientProviders: [buildUser()], subject: 'Build output', to: 'khanhnguyennam@hotmail.com'
+	    emailext body: validateoutput, recipientProviders: [buildUser()], subject: 'Build output', to: 'khanhnguyennam@hotmail.com'
         }
     }
 }
