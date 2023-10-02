@@ -38,40 +38,11 @@ node {
 	}
 
 	post {
-		always {
-		  script {
-			    echo 'Project build failed!'
-			    if (currentBuild.currentResult == 'FAILURE') {
-				emailext attachLog: true, body: '''Hi
-				This is build result. 
-				Thanks
-				DevOps team''', subject: 'Build result from devops',
-				to: 'khanhnguyennam@hotmail.com',
-				recipientProviders: [developers(), requestor()]
-			    }
-		  	}
+		failure {
+			echo 'Project build failed!'
+		}
+		success {
+			echo 'Project build success!'
 		}
 	}
-
-		/*
-		post {
-		failure {
-        		echo 'Project build failed!'
-			emailext attachLog: true, body: '''Hi
-			This is build result. 
-			Thanks
-			DevOps team''', subject: 'Build result from devops',
-			to: 'khanhnguyennam@hotmail.com',
-			recipientProviders: [developers(), requestor()]
-    		}
-		unstable {
-        		echo 'Project build failed!'
-			emailext attachLog: true, body: '''Hi
-			This is build result. 
-			Thanks
-			DevOps team''', subject: 'Build result from devops',
-			to: 'khanhnguyennam@hotmail.com',
-			recipientProviders: [developers(), requestor()]
-    		}
-	}*/
 }
