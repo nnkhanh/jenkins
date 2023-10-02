@@ -54,6 +54,7 @@ pipeline {
     post {
         success {
             echo 'I succeeded!'
+	    emailext body: 'buid result ' + validateoutput, recipientProviders: [buildUser()], subject: 'Build output', to: 'khanhnguyennam@hotmail.com'
         }
         unstable {
             echo 'I am unstable :/'
