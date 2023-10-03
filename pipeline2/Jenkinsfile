@@ -4,23 +4,9 @@ pipeline {
 	triggers {
 	    GenericTrigger(
 	     genericVariables: [
-	      [key: 'ref', value: '$.ref']
+	      [key: 'ref', value: 'refs/heads/main']
 	     ],
-	
-	     causeString: 'Triggered on $ref',
-	
-	     token: '12344321',
-	     tokenCredentialId: '',
-	
-	     printContributedVariables: true,
-	     printPostContent: true,
-	
-	     silentResponse: false,
-	     
-	     shouldNotFlatten: false,
-	
-	     regexpFilterText: '$ref',
-	     regexpFilterExpression: 'refs/heads/' + BRANCH_NAME
+	     token: '12344321'
 	    )
   	}
 	stages {
