@@ -4,9 +4,12 @@ pipeline {
 	triggers {
 	    GenericTrigger(
 	     genericVariables: [
-	      [key: 'ref', value: 'refs/heads/main']
+	      [key: 'ref', value: '$.ref']
 	     ],
-	     token: '12344321'
+	     token: '12344321',
+		causeString: 'Triggered on $ref',
+		regexpFilterText: '$ref',
+	    	regexpFilterExpression: 'refs/heads/main'
 	    )
   	}
 	stages {
