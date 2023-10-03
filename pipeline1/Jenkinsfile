@@ -1,5 +1,3 @@
-def validateoutput
-
 pipeline {
     agent any
     stages {
@@ -38,7 +36,7 @@ pipeline {
                     sh 'terraform init'
                     script {
                         sh 'pwd'
-                        validateoutput = sh(returnStdout: true, script: 'terraform validate').trim()
+                        sh 'terraform validate'
                     }
                 }
             }
