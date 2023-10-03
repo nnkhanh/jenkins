@@ -13,18 +13,19 @@ pipeline {
         )
     }
 
-    stage('Checkout') {
-        steps {
-            checkout scmGit(branches: [[name: 'main']],
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scmGit(branches: [[name: 'main']],
             userRemoteConfigs: [
             [ url: 'https://github.com/nnkhanh/publishRepo.git' ]
             ])
+            }
         }
-    }
 
-    stage('ExportTerraform') {
-        steps {
-            withCredentials([string(credentialsId: 'ARM_CLIENT_ID', variable: 'ARM_CLIENT_ID')
+        stage('ExportTerraform') {
+            steps {
+                withCredentials([string(credentialsId: 'ARM_CLIENT_ID', variable: 'ARM_CLIENT_ID')
                     , string(credentialsId: 'ARM_SUBSCRIPTION_ID', variable: 'ARM_SUBSCRIPTION_ID')
                     , string(credentialsId: 'ARM_ACCESS_KEY', variable: 'ARM_ACCESS_KEY')
                     , string(credentialsId: 'ARM_CLIENT_SECRET', variable: 'ARM_CLIENT_SECRET')
@@ -38,22 +39,23 @@ pipeline {
                         sh 'export ARM_CLIENT_SECRET=$ARM_CLIENT_SECRET'
                     }
                     }
-        }
-    }
-
-    stage('Apply') {
-        steps {
-            dir('dc11-dot-khanh-networking') {
-                sh 'pwd && ls'
-                sh 'terraform init'
-                sh 'terraform apply -auto-approve'
             }
         }
-    }
 
-    stage('cleanup') {
-        steps {
-            cleanWs()
+        stage('Apply') {
+            steps {
+                dir('dc11-dot-khanh-networking') {
+                    sh 'pwd && ls'
+                    sh 'terraform init'
+                    sh 'terraform apply -auto-approve'
+                }
+            }
+        }
+
+        stage('cleanup') {
+            steps {
+                cleanWs()
+            }
         }
     }
 }
