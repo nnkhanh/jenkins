@@ -1,50 +1,82 @@
-node {
+pipeline {
+	agent any
 
-	stage ('Checkout') {
-		sh 'pwd'
-	}
+	triggers {
+	    GenericTrigger(
+	     genericVariables: [
+	      [key: 'ref', value: '$.ref']
+	     ],
+	
+	     causeString: 'Triggered on $ref',
+	
+	     token: 'abc123',
+	     tokenCredentialId: '',
+	
+	     printContributedVariables: true,
+	     printPostContent: true,
+	
+	     silentResponse: false,
+	     
+	     shouldNotFlatten: false,
+	
+	     regexpFilterText: '$ref',
+	     regexpFilterExpression: 'refs/heads/' + BRANCH_NAME
+	    )
+  	}
+	stages {
+	    stage('Some step') {
+	      steps {
+	        sh "echo $ref"
+	      }
+	    }
+  	}
 	
 	/*
-	stage ('Checkout') {
-		checkout scmGit(branches: [[name: 'main']],
-                userRemoteConfigs: [
-                    [ url: 'https://github.com/nnkhanh/publishRepo.git' ]
-                ])
-	}
-	
-	stage ('ExportTerraform') {
-		withCredentials([string(credentialsId: 'ARM_CLIENT_ID', variable: 'ARM_CLIENT_ID')
-				 , string(credentialsId: 'ARM_SUBSCRIPTION_ID', variable: 'ARM_SUBSCRIPTION_ID')
-				 , string(credentialsId: 'ARM_ACCESS_KEY', variable: 'ARM_ACCESS_KEY')
-				 , string(credentialsId: 'ARM_CLIENT_SECRET', variable: 'ARM_CLIENT_SECRET')
-				 , string(credentialsId: 'ARM_TENANT_ID', variable: 'ARM_TENANT_ID')]) {
-					script {
-					    	// some block
-						sh 'export ARM_CLIENT_ID=$ARM_CLIENT_ID'
-						sh 'export ARM_SUBSCRIPTION_ID=$ARM_SUBSCRIPTION_ID'
-						sh 'export ARM_TENANT_ID=$ARM_TENANT_ID'
-						sh 'export ARM_ACCESS_KEY=$ARM_ACCESS_KEY'
-						sh 'export ARM_CLIENT_SECRET=$ARM_CLIENT_SECRET'
-					}
+	    stages {
+		stage ('Checkout') {
+		    steps {
+			checkout scmGit(branches: [[name: 'main']],
+			    userRemoteConfigs: [
+				[ url: 'https://github.com/nnkhanh/publishRepo.git' ]
+			    ])
+			}
+		    }
+		    
+	    stage ('ExportTerraform') {
+		steps {
+			withCredentials([string(credentialsId: 'ARM_CLIENT_ID', variable: 'ARM_CLIENT_ID')
+					 , string(credentialsId: 'ARM_SUBSCRIPTION_ID', variable: 'ARM_SUBSCRIPTION_ID')
+					 , string(credentialsId: 'ARM_ACCESS_KEY', variable: 'ARM_ACCESS_KEY')
+					 , string(credentialsId: 'ARM_CLIENT_SECRET', variable: 'ARM_CLIENT_SECRET')
+					 , string(credentialsId: 'ARM_TENANT_ID', variable: 'ARM_TENANT_ID')]) {
+						script {
+							// some block
+							sh 'export ARM_CLIENT_ID=$ARM_CLIENT_ID'
+							sh 'export ARM_SUBSCRIPTION_ID=$ARM_SUBSCRIPTION_ID'
+							sh 'export ARM_TENANT_ID=$ARM_TENANT_ID'
+							sh 'export ARM_ACCESS_KEY=$ARM_ACCESS_KEY'
+							sh 'export ARM_CLIENT_SECRET=$ARM_CLIENT_SECRET'
+						}
+		    }
 		}
-	}
+	    }
 	
 	stage ('Apply') {
-		dir('dc11-dot-khanh-networking') {
-			sh 'ls -al'
-			sh 'terraform init'
-			sh 'terraform apply -auto-approve'
-		}		
+	     steps {
+		 dir('dc11-dot-khanh-networking') {
+			    sh 'pwd && ls'
+			    sh 'terraform init'
+			    sh 'terraform apply -auto-approve'
+		 }
+	    }
 	}
-
-	stage ('Destroy') {
-		dir('dc11-dot-khanh-networking') {
-			sh 'terraform destroy -auto-approve'
-		}		
-	}
-
+	     
+	
 	stage ('cleanup') {
+	    steps {
 		cleanWs()
+	    }
 	}
- */
+	}
+	*/
 }
