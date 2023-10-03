@@ -9,7 +9,7 @@ pipeline {
 	
 	     causeString: 'Triggered on $ref',
 	
-	     token: 'abc123',
+	     token: '12344321',
 	     tokenCredentialId: '',
 	
 	     printContributedVariables: true,
