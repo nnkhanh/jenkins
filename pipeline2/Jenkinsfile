@@ -11,16 +11,9 @@ pipeline {
 		regexpFilterText: '$ref',
 	    	regexpFilterExpression: 'refs/heads/main'
 	    )
-  	}
-	stages {
-	    stage('Some step') {
-	      steps {
-	        sh "echo $ref"
-	      }
-	    }
-  	}
+  	}	
 	
-	/*
+	
 	    stages {
 		stage ('Checkout') {
 		    steps {
@@ -67,5 +60,5 @@ pipeline {
 	    }
 	}
 	}
-	*/
+	
 }
